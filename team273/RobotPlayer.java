@@ -1,4 +1,4 @@
-package examplefuncsplayer;
+package team273;
 
 import battlecode.common.*;
 import java.util.*;

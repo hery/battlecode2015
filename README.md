@@ -18,3 +18,7 @@ Strategy Brainstorming
 * Implement some high-level actions to use with deep/reinforcement learning
 * Build a deep/reinforcement learning network to figure out the best strategies using those actions
 
+Notes
+==========
+
+* Actions can be stored using the [adapter pattern](http://stackoverflow.com/questions/4280727/java-creating-an-array-of-methods)

@@ -18,8 +18,15 @@ Strategy Brainstorming
 * Implement some high-level actions to use with deep/reinforcement learning
 * Build a deep/reinforcement learning network to figure out the best strategies using those actions
 
+Tentative Actions
+=================
+
+* It'd be cool to have some sort of scout() action that sends a scout around to gather informations about ennemies and the environment
+
 Notes
 ==========
 
 * Actions can be stored using the [adapter pattern](http://stackoverflow.com/questions/4280727/java-creating-an-array-of-methods)
 * It doesn't seem possible to use [memory outside a set of tournament matches](https://www.dropbox.com/s/p705l3mvbr85j0w/Screenshot%202015-01-15%2012.53.26.png?dl=0), which would make training our player in scrimmage matches impossible. Would it make sense to evolve two of our own learning players against each other? xD
+
+

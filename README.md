@@ -22,3 +22,4 @@ Notes
 ==========
 
 * Actions can be stored using the [adapter pattern](http://stackoverflow.com/questions/4280727/java-creating-an-array-of-methods)
+* It doesn't seem possible to use memory outside a set of tournament matches, which would make training our player in scrimmage matches impossible. Would it make sense to evolve two of our own learning players against each other? xD

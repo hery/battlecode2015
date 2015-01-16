@@ -17,6 +17,7 @@ Strategy Brainstorming
 
 * Implement some high-level actions to use with deep/reinforcement learning
 * Build a deep/reinforcement learning network to figure out the best strategies using those actions
+* Starting with implementing a naive version of the [CF-version of R-SMART](http://web.mst.edu/~gosavia/tutorial.pdf) and seeing where that takes us
 
 Tentative Actions
 =================

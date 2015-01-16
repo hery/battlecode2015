@@ -10,9 +10,9 @@ class RL {
 
 	static void initialize() {
 		System.out.println("Initializing...");
+		Q = new int[10];
 		for (int i = 0; i < Q.length; i++) {
-			Q[i] = 1;
+			Q[i] = 0;
 		}
-		System.out.println(Q);
 	}
 }

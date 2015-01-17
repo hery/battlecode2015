@@ -6,8 +6,9 @@ import battlecode.common.*;
 
 public class RobotPlayer {
 
-	private static int[] Q; // Q-factors
-	private static int k; // iteration count
+	// RL variables
+	private static int[][] Q; // Q-factors
+	private static int k; // iteration count, i.e: round number
 	private static Set<String> A; // actions - assuming string type for now to
 								  // silence "uses unchecked or unsafe operations."
 	private static int alpha; // main learning rate
@@ -18,7 +19,15 @@ public class RobotPlayer {
 	private static double eta = 0.99;
 	private static int number_of_rounds = 2000;
 
+	// Battlecode variables
+	static Direction[] directions = {Direction.NORTH, Direction.NORTH_EAST, Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH, Direction.SOUTH_WEST, Direction.WEST, Direction.NORTH_WEST};
+	static RobotController rc;
+	static boolean[] processedRound;
+
 	public static void run(RobotController datRobot) {
+		rc = datRobot;
+		processedRound = new boolean[number_of_rounds];
+
 		initialize();
 		learn();
 		System.out.println("initialized dat robot!");
@@ -32,10 +41,12 @@ public class RobotPlayer {
 		total_time = 0;
 		total_reward = 0;
 
-		int Q_size = number_of_rounds * A.size();
-		Q = new int[Q_size]; 
-		for (int i = 0; i < Q.length; i++) {
-			Q[i] = 0;
+		Q = new int[number_of_rounds][A.size()];
+		int i, j;
+		for (i = 0; i < Q.length; i++) {
+			for (j = 0; j < Q[j].length; j++) {
+				Q[i][j] = 0;				
+			}
 		}
 	}
 
@@ -43,8 +54,34 @@ public class RobotPlayer {
 		// Iterate through states, i.e: simulate!
 		// Check clock and make sure it's synced to loop index. /!\ it's not!
 		while (true) {
-			System.out.println("Current round:");
-			System.out.println(Clock.getRoundNum());
+			int current_round = Clock.getRoundNum();
+			if (!processedRound[current_round]) {
+				System.out.printf("Round %d, Robot %s\n", current_round, rc.getType());
+				processedRound[current_round] = true;
+			}
+		}
+	}
+
+		static int directionToInt(Direction d) {
+		switch(d) {
+			case NORTH:
+				return 0;
+			case NORTH_EAST:
+				return 1;
+			case EAST:
+				return 2;
+			case SOUTH_EAST:
+				return 3;
+			case SOUTH:
+				return 4;
+			case SOUTH_WEST:
+				return 5;
+			case WEST:
+				return 6;
+			case NORTH_WEST:
+				return 7;
+			default:
+				return -1;
 		}
 	}
 }

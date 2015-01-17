@@ -1,0 +1,50 @@
+package team273; 
+
+import java.math.BigInteger;
+import java.util.*;
+import battlecode.common.*;
+
+public class RobotPlayer {
+
+	private static int[] Q; // Q-factors
+	private static int k; // iteration count
+	private static Set<String> A; // actions - assuming string type for now to
+								  // silence "uses unchecked or unsafe operations."
+	private static int alpha; // main learning rate
+	private static int beta; // secondary learning rate
+	private static int total_reward;
+	private static int total_time;
+	private static BigInteger ITERMAX = new BigInteger("9999999999999");
+	private static double eta = 0.99;
+	private static int number_of_rounds = 2000;
+
+	public static void run(RobotController datRobot) {
+		initialize();
+		learn();
+		System.out.println("initialized dat robot!");
+	}
+
+	static void initialize() {
+		System.out.println("Initializing...");
+
+		k = 1;
+		A = new HashSet<String>();
+		total_time = 0;
+		total_reward = 0;
+
+		int Q_size = number_of_rounds * A.size();
+		Q = new int[Q_size]; 
+		for (int i = 0; i < Q.length; i++) {
+			Q[i] = 0;
+		}
+	}
+
+	static void learn() {
+		// Iterate through states, i.e: simulate!
+		// Check clock and make sure it's synced to loop index. /!\ it's not!
+		while (true) {
+			System.out.println("Current round:");
+			System.out.println(Clock.getRoundNum());
+		}
+	}
+}

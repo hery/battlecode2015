@@ -1,4 +1,4 @@
-rl: rl.class
+RL: RL.class
 
-rl.class:
-	javac team273/rl.java
+RL.class:
+	javac team273/RL.java

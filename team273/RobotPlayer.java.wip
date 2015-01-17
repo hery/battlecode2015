@@ -52,17 +52,34 @@ public class RobotPlayer {
 
 	static void learn() {
 		// Iterate through states, i.e: simulate!
-		// Check clock and make sure it's synced to loop index. /!\ it's not!
 		while (true) {
 			int current_round = Clock.getRoundNum();
 			if (!processedRound[current_round]) {
 				System.out.printf("Round %d, Robot %s\n", current_round, rc.getType());
+
 				processedRound[current_round] = true;
 			}
 		}
 	}
 
-		static int directionToInt(Direction d) {
+	// Using some high level actions to simplify computation
+	static void attack() {
+
+	}
+
+	static void move() {
+
+	}
+
+	static void spawn() {
+
+	}
+
+	static void build() {
+
+	}
+
+	static int directionToInt(Direction d) {
 		switch(d) {
 			case NORTH:
 				return 0;

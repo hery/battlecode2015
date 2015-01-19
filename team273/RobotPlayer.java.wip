@@ -21,16 +21,22 @@ public class RobotPlayer {
 
 	// Battlecode variables
 	static Direction[] directions = {Direction.NORTH, Direction.NORTH_EAST, Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH, Direction.SOUTH_WEST, Direction.WEST, Direction.NORTH_WEST};
-	static RobotController rc;
+	static RobotController rc; // each robot gets an rc
 	static boolean[] processedRound;
+	static int myRange;
+	static Team myTeam;
+	static Team enemyTeam;
 
 	public static void run(RobotController datRobot) {
 		rc = datRobot;
 		processedRound = new boolean[number_of_rounds];
+		myRange = rc.getType().attackRadiusSquared;
+		myTeam = rc.getTeam();
+		enemyTeam = myTeam.opponent();
 
 		initialize();
+		System.out.println("initialized dat robot! Starting learning...");
 		learn();
-		System.out.println("initialized dat robot!");
 	}
 
 	static void initialize() {
@@ -57,26 +63,44 @@ public class RobotPlayer {
 			if (!processedRound[current_round]) {
 				System.out.printf("Round %d, Robot %s\n", current_round, rc.getType());
 
+				// Update Q-factors and blah blah blah!
 				processedRound[current_round] = true;
 			}
 		}
 	}
 
 	// Using some high level actions to simplify computation
-	static void attack() {
-
+	// ## todo: their implementation should consider rc's robotType
+	static void attackLikeAMadman() throws GameActionException {
+		RobotInfo[] enemies = rc.senseNearbyRobots(myRange, enemyTeam);
+		if (enemies.length > 0) {
+			rc.attackLocation(enemies[0].location);
+		}
 	}
 
-	static void move() {
 
+	static void danceTowardsEnemyHQ() throws GameActionException {
+		// ## todo: need to check canMove()
+		Direction enemyHQLocation = rc.getLocation().directionTo(rc.senseEnemyHQLocation());
+		rc.move(enemyHQLocation);
 	}
 
-	static void spawn() {
-
+	static void giveBirthToBabyRobots() throws GameActionException {
+		// ## todo: need to check canSpawn()
+		RobotType type;
+		if (rc.getType() == RobotType.HQ) {
+			type = RobotType.BEAVER;
+			// ## todo: figure out direction
+			rc.spawn(Direction.NORTH, type); 
+		}
 	}
 
-	static void build() {
-
+	static void buildPrettyThings() throws GameActionException {
+		RobotType type;
+		if (rc.getType() == RobotType.BEAVER) {
+			type = RobotType.BARRACKS;
+			rc.spawn(Direction.NORTH, type);
+		}
 	}
 
 	static int directionToInt(Direction d) {

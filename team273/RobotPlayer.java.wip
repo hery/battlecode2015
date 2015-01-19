@@ -26,6 +26,7 @@ public class RobotPlayer {
 	static int myRange;
 	static Team myTeam;
 	static Team enemyTeam;
+	static Random rand;
 
 	public static void run(RobotController datRobot) {
 		rc = datRobot;
@@ -33,6 +34,7 @@ public class RobotPlayer {
 		myRange = rc.getType().attackRadiusSquared;
 		myTeam = rc.getTeam();
 		enemyTeam = myTeam.opponent();
+		rand = new Random(rc.getID());
 
 		initialize();
 		System.out.println("initialized dat robot! Starting learning...");
@@ -60,11 +62,52 @@ public class RobotPlayer {
 		// Iterate through states, i.e: simulate!
 		while (true) {
 			int current_round = Clock.getRoundNum();
-			if (!processedRound[current_round]) {
-				System.out.printf("Round %d, Robot %s\n", current_round, rc.getType());
+			// if (!processedRound[current_round]) {
+			// 	System.out.printf("Round %d, Robot %s\n", current_round, rc.getType());
 
-				// Update Q-factors and blah blah blah!
-				processedRound[current_round] = true;
+			// 	// Update Q-factors and blah blah blah!
+			// 	processedRound[current_round] = true;
+			// }
+
+			// Testing high-level actions. 
+			// Should get quite expensive in term of GameActionsException
+
+			try {
+				attackLikeAMadman();
+			} catch (Exception e) {
+				System.out.printf("Couldn't attack! %s\n", e);
+			}
+
+			try { // ## Spread robots all over. Attack HQ after building enough robots.
+				if (Clock.getRoundNum() < 1700) {
+					int fate = rand.nextInt(200);
+					if (fate < 100) {
+						tryMove(directions[rand.nextInt(8)]);
+					} else {
+						rc.mine();
+					}
+				} else {
+					Direction enemyHQLocation = rc.getLocation().directionTo(rc.senseEnemyHQLocation());
+					tryMove(enemyHQLocation);
+				}
+			} catch (Exception e) {
+				try {
+					tryMove(directions[rand.nextInt(8)]);
+				} catch (Exception f) {
+					System.out.printf("Couldn't move! %s\n", f);				
+				}
+			}
+
+			try {
+				giveBirthToBabyRobots();
+			} catch (Exception e) {
+				System.out.printf("Couldn't spawn! %s\n", e);
+			}
+
+			try {
+				buildPrettyThings();
+			} catch (Exception e) {
+				System.out.printf("Couldn't build! %s\n", e);
 			}
 		}
 	}
@@ -74,7 +117,9 @@ public class RobotPlayer {
 	static void attackLikeAMadman() throws GameActionException {
 		RobotInfo[] enemies = rc.senseNearbyRobots(myRange, enemyTeam);
 		if (enemies.length > 0) {
-			rc.attackLocation(enemies[0].location);
+			if (rc.isWeaponReady()) {
+				rc.attackLocation(enemies[0].location);
+			}
 		}
 	}
 
@@ -82,7 +127,9 @@ public class RobotPlayer {
 	static void danceTowardsEnemyHQ() throws GameActionException {
 		// ## todo: need to check canMove()
 		Direction enemyHQLocation = rc.getLocation().directionTo(rc.senseEnemyHQLocation());
-		rc.move(enemyHQLocation);
+		if (rc.isCoreReady()) {
+			rc.move(enemyHQLocation);
+		}
 	}
 
 	static void giveBirthToBabyRobots() throws GameActionException {
@@ -91,6 +138,18 @@ public class RobotPlayer {
 		if (rc.getType() == RobotType.HQ) {
 			type = RobotType.BEAVER;
 			// ## todo: figure out direction
+		} else if (rc.getType() == RobotType.BARRACKS) {
+			int fate = rand.nextInt(200);
+			if (fate < 100) {
+				type = RobotType.BASHER;
+			} else {
+				type = RobotType.SOLDIER;
+			}
+		} else { 
+			return;
+		}
+
+		if (rc.isCoreReady()) {
 			rc.spawn(Direction.NORTH, type); 
 		}
 	}
@@ -99,7 +158,22 @@ public class RobotPlayer {
 		RobotType type;
 		if (rc.getType() == RobotType.BEAVER) {
 			type = RobotType.BARRACKS;
-			rc.spawn(Direction.NORTH, type);
+			if (rc.isCoreReady()) {
+				rc.build(Direction.NORTH, type);
+			}
+		}
+	}
+
+	static void tryMove(Direction d) throws GameActionException {
+		int offsetIndex = 0;
+		int[] offsets = {0,1,-1,2,-2};
+		int dirint = directionToInt(d);
+		boolean blocked = false;
+		while (offsetIndex < 5 && !rc.canMove(directions[(dirint+offsets[offsetIndex]+8)%8])) {
+			offsetIndex++;
+		}
+		if (offsetIndex < 5 && rc.isCoreReady()) {
+			rc.move(directions[(dirint+offsets[offsetIndex]+8)%8]);
 		}
 	}
 

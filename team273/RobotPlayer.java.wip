@@ -79,14 +79,14 @@ public class RobotPlayer {
 			}
 
 			try { // ## Spread robots all over. Attack HQ after building enough robots.
-				if (Clock.getRoundNum() < 1000) {
+				if (Clock.getRoundNum() < 1500) {
 					int fate = rand.nextInt(200);
 					if (fate < 100) {
 						tryMove(directions[rand.nextInt(8)]);
 					} else {
 						rc.mine();
 					}
-				} else if (Clock.getRoundNum() < 1100) {
+				} else if (Clock.getRoundNum() < 1550) {
 					Direction hQLocation = rc.getLocation().directionTo(rc.senseHQLocation());
 					tryMove(hQLocation);
 				} else {

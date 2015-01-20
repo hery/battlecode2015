@@ -50,6 +50,34 @@ public class Robot {
 				return new RobotBeaver(rc);
 			case BARRACKS:
 				return new RobotBarracks(rc);
+			case AEROSPACELABS:
+				return new RobotAerospaceLab(rc);
+			case COMMANDER:
+				return new RobotCommander(rc);
+			case COMPUTER:
+				return new RobotComputer(rc);
+			case DRONE:
+				return new RobotDrone(rc);
+			case HANDWASHSTATION:
+				return new RobotHandwashStation(rc);
+			case HELIPAD(rc):
+				return new RobotHelipad(rc);
+			case MINER(rc):
+				return new RobotMiner(rc);
+			case MINERFACTORY(rc):
+				return new RobotMinerFactory(rc);
+			case MISSILE:
+				return new RobotMissile(rc);
+			case SUPPLYDEPOT:
+				return new RobotSupplyDepot(rc);
+			case TANK:
+				return new RobotTank(rc);
+			case TANKFACTORY:
+				return new RobotTankFactory(rc);
+			case TECHNOLOGYINSTITUE:
+				return new RobotTechnologyInstitute(rc);
+			case TRAININGFIELD:
+				return new RobotTrainingField(rc);
 			default:
 				return null;
 		}

@@ -31,6 +31,5 @@ public class RobotBasher extends Robot {
 				e.printStackTrace();
 			}
 		}
-
 	}
 }

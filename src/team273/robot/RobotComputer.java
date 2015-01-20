@@ -5,7 +5,7 @@ import battlecode.common.RobotController;
 import battlecode.common.RobotInfo;
 import battlecode.common.RobotType;
 
-public class RobotHQ extends Robot {
+public class RobotComputer extends Robot {
 
 	public RobotComputer(RobotController rc) {
 		super(rc);

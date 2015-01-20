@@ -4,7 +4,7 @@ import battlecode.common.Direction;
 import battlecode.common.GameActionException;
 import battlecode.common.RobotController;
 
-public class RobotSoldier extends Robot {
+public class RobotDrone extends Robot {
 
 	public RobotDrone(RobotController rc) {
 		super(rc);

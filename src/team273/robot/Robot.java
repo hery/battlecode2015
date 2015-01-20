@@ -50,7 +50,7 @@ public class Robot {
 				return new RobotBeaver(rc);
 			case BARRACKS:
 				return new RobotBarracks(rc);
-			case AEROSPACELABS:
+			case AEROSPACELAB:
 				return new RobotAerospaceLab(rc);
 			case COMMANDER:
 				return new RobotCommander(rc);
@@ -60,11 +60,11 @@ public class Robot {
 				return new RobotDrone(rc);
 			case HANDWASHSTATION:
 				return new RobotHandwashStation(rc);
-			case HELIPAD(rc):
+			case HELIPAD:
 				return new RobotHelipad(rc);
-			case MINER(rc):
+			case MINER:
 				return new RobotMiner(rc);
-			case MINERFACTORY(rc):
+			case MINERFACTORY:
 				return new RobotMinerFactory(rc);
 			case MISSILE:
 				return new RobotMissile(rc);
@@ -74,7 +74,7 @@ public class Robot {
 				return new RobotTank(rc);
 			case TANKFACTORY:
 				return new RobotTankFactory(rc);
-			case TECHNOLOGYINSTITUE:
+			case TECHNOLOGYINSTITUTE:
 				return new RobotTechnologyInstitute(rc);
 			case TRAININGFIELD:
 				return new RobotTrainingField(rc);

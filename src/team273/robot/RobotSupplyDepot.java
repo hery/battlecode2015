@@ -5,7 +5,7 @@ import battlecode.common.GameActionException;
 import battlecode.common.RobotController;
 import battlecode.common.RobotType;
 
-public class RobotBeaver extends Robot {
+public class RobotSupplyDepot extends Robot {
 
 	public RobotSupplyDepot(RobotController rc) {
 		super(rc);

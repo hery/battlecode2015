@@ -10,6 +10,7 @@ public class RobotPlayer {
 	static int myRange;
 	static Random rand;
 	static Direction[] directions = {Direction.NORTH, Direction.NORTH_EAST, Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH, Direction.SOUTH_WEST, Direction.WEST, Direction.NORTH_WEST};
+	static int ATTACK_THRESHOLD = 1400;
 
 	public static void run(RobotController tomatojuice) {
 		rc = tomatojuice;

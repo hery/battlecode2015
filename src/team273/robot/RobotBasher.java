@@ -1,5 +1,6 @@
 package team273.robot;
 
+import battlecode.common.Clock;
 import battlecode.common.Direction;
 import battlecode.common.GameActionException;
 import battlecode.common.RobotController;
@@ -13,6 +14,10 @@ public class RobotBasher extends Robot {
 
 	@Override
 	protected void doTurn() {
+		if (Clock.getRoundNum() > ATTACK_THRESHOLD) {
+			super.doTurn();
+		}
+
 		RobotInfo[] adjacentEnemies = rc.senseNearbyRobots(2, enemyTeam);
 
 		// BASHERs attack automatically, so let's just move around mostly randomly

@@ -1,5 +1,6 @@
 package team273.robot;
 
+import battlecode.common.Clock;
 import battlecode.common.Direction;
 import battlecode.common.GameActionException;
 import battlecode.common.RobotController;
@@ -13,6 +14,10 @@ public class RobotBeaver extends Robot {
 
 	@Override
 	protected void doTurn() {
+		if (Clock.getRoundNum() > ATTACK_THRESHOLD) {
+			super.doTurn();
+		}
+
 		if (rc.isWeaponReady()) {
 			try {
 				attackSomething();
@@ -23,11 +28,21 @@ public class RobotBeaver extends Robot {
 		}
 		if (rc.isCoreReady()) {
 			int fate = rand.nextInt(1000);
-			if (fate < 8 && rc.getTeamOre() >= 300) {
+			if (fate < 100 && rc.getTeamOre() >= 300) {
 				try {
-					tryBuild(directions[rand.nextInt(8)], RobotType.BARRACKS);
+					RobotType type = RobotType.BARRACKS;
+					if (rc.hasBuildRequirements(RobotType.AEROSPACELAB)) {
+						type = RobotType.AEROSPACELAB;
+					}
+					if (rc.hasBuildRequirements(RobotType.TANKFACTORY)) {
+						type = RobotType.TANKFACTORY;
+					}
+					if (rc.hasBuildRequirements(RobotType.HELIPAD)) {
+						type = RobotType.HELIPAD;
+					}
+					tryBuild(directions[rand.nextInt(8)], type);
 				} catch (GameActionException e) {
-					System.out.println("GameActionException encountered on tryBuild() of barracks in RobotBeaver");
+					System.out.println("GameActionException encountered on tryBuild() in RobotBeaver");
 					e.printStackTrace();
 				}
 			} else if (fate < 600) {
@@ -38,12 +53,7 @@ public class RobotBeaver extends Robot {
 					e.printStackTrace();
 				}
 			} else {
-				Direction direction;
-				if (fate < 900) {
-					direction = directions[rand.nextInt(8)];
-				} else {
-					direction = rc.senseHQLocation().directionTo(rc.getLocation());
-				}
+				Direction direction = directions[rand.nextInt(8)];
 				try {
 					tryMove(direction);
 				} catch (GameActionException e) {

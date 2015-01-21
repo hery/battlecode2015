@@ -1,5 +1,6 @@
 package team273.robot;
 
+import battlecode.common.Clock;
 import battlecode.common.Direction;
 import battlecode.common.GameActionException;
 import battlecode.common.RobotController;
@@ -12,6 +13,10 @@ public class RobotSoldier extends Robot {
 
 	@Override
 	protected void doTurn() {
+		if (Clock.getRoundNum() > ATTACK_THRESHOLD) {
+			super.doTurn();
+		}
+
 		if (rc.isWeaponReady()) {
 			try {
 				attackSomething();
@@ -21,13 +26,7 @@ public class RobotSoldier extends Robot {
 			}
 		}
 		if (rc.isCoreReady()) {
-			int fate = rand.nextInt(1000);
-			Direction direction;
-			if (fate < 800) {
-				direction = directions[rand.nextInt(8)];
-			} else {
-				direction = rc.getLocation().directionTo(rc.senseEnemyHQLocation());
-			}
+			Direction direction = directions[rand.nextInt(8)];
 			try {
 				tryMove(direction);
 			} catch (GameActionException e) {

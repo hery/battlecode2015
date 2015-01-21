@@ -13,6 +13,15 @@ public class RobotAerospaceLab extends Robot {
 
 	@Override
 	protected void doTurn() {
-
+		if (rc.isCoreReady() && rc.getTeamOre() >= 300) {
+			Direction direction = directions[rand.nextInt(8)];
+			RobotType type = RobotType.LAUNCHER;
+			try {
+				trySpawn(direction, type);
+			} catch (GameActionException e) {
+				System.out.println("GameActionException encountered on trySpawn() in RobotBarracks");
+				e.printStackTrace();
+			}
+		}
 	}
 }

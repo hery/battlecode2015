@@ -2,6 +2,7 @@ package team273.robot;
 
 import java.util.Random;
 
+import battlecode.common.Clock;
 import battlecode.common.Direction;
 import battlecode.common.GameActionException;
 import battlecode.common.MapLocation;
@@ -12,6 +13,8 @@ import battlecode.common.Team;
 
 public class Robot {
 	public static final Direction[] directions = {Direction.NORTH, Direction.NORTH_EAST, Direction.EAST, Direction.SOUTH_EAST, Direction.SOUTH, Direction.SOUTH_WEST, Direction.WEST, Direction.NORTH_WEST};
+	public static final  int ATTACK_THRESHOLD = 1400;
+
 
 	protected RobotController rc;
 	protected Random rand;
@@ -83,7 +86,52 @@ public class Robot {
 		}
 	}
 
-	protected void doTurn() {}
+	protected void doTurn() {
+		// Time to attack
+		// Assumptions:
+		//     * only moving units call this method
+		// 	   * this method is only called when ATTACK_THRESHOLD has been reached
+
+		if (rc.isWeaponReady()) {
+			try {
+				attackSomething();
+			} catch (GameActionException e) {
+				System.out.println("GameActionException encountered on attackSomething() during attack phase!");
+				e.printStackTrace();
+			}
+		}
+		if (!rc.isCoreReady()) {
+			return;
+		}
+		if (Clock.getRoundNum() < ATTACK_THRESHOLD + 50) {
+			// Gather into a ball to increase total attacking power
+			Direction hQLocation = rc.getLocation().directionTo(rc.senseHQLocation());
+			try {
+				tryMove(hQLocation);
+			} catch (Exception e) {
+				System.out.println("Mobile unit couldn't move during attack phase!");
+				e.printStackTrace();
+			}
+		} else {
+				if (rc.senseEnemyTowerLocations().length > 3) {
+				Direction enemyTowerLocation =  rc.getLocation().directionTo(rc.senseEnemyTowerLocations()[0]);
+				try {
+					tryMove(enemyTowerLocation);
+				} catch (Exception e) {
+					System.out.println("Mobile unit couldn't move during attack phase!");
+					e.printStackTrace();
+				}
+			} else {
+				Direction enemyHQLocation = rc.getLocation().directionTo(rc.senseEnemyHQLocation());
+				try {
+					tryMove(enemyHQLocation);
+				} catch (Exception e) {
+					System.out.println("Mobile unit couldn't move during attack phase!");
+					e.printStackTrace();
+				}
+			}
+		}
+	}
 
 	public void run() {
 		while (true) {

@@ -94,7 +94,9 @@ public class Robot {
 
 		if (rc.isWeaponReady()) {
 			try {
-				attackSomething();
+				if (rc.getType() != RobotType.BASHER) {
+					attackSomething();
+				}
 			} catch (GameActionException e) {
 				System.out.println("GameActionException encountered on attackSomething() during attack phase!");
 				e.printStackTrace();

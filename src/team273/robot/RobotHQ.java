@@ -51,7 +51,13 @@ public class RobotHQ extends Robot {
 			}
 		}
 
-		if (rc.isCoreReady() && rc.getTeamOre() >= 100 && fate < Math.pow(1.2,12-numBeavers)*10000) {
+		int numberOfBeavers = 0;
+		try {
+			numberOfBeavers = rc.readBroadcast(0);
+		} catch (GameActionException e) {
+			System.out.println("HQ couldn't read broadcast!");
+		}
+		if (rc.isCoreReady() && rc.getTeamOre() >= 100 && numberOfBeavers <= 10) {
 			try {
 				trySpawn(directions[rand.nextInt(8)], RobotType.BEAVER);
 			} catch (GameActionException e) {

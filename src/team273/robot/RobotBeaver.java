@@ -28,16 +28,19 @@ public class RobotBeaver extends Robot {
 		}
 		if (rc.isCoreReady()) {
 			int fate = rand.nextInt(1000);
-			if (fate < 100 && rc.getTeamOre() >= 300) {
+			if (fate < 200 && rc.getTeamOre() >= 500) {
 				try {
 					RobotType type = RobotType.BARRACKS;
-					if (rc.hasBuildRequirements(RobotType.AEROSPACELAB)) {
+					if (rc.hasBuildRequirements(RobotType.MINERFACTORY) && Clock.getRoundNum() < 50) {
+						type = RobotType.MINERFACTORY;
+					}
+					if (rc.hasBuildRequirements(RobotType.AEROSPACELAB) && fate > 0 && fate < 25 ) {
 						type = RobotType.AEROSPACELAB;
 					}
-					if (rc.hasBuildRequirements(RobotType.TANKFACTORY)) {
+					if (rc.hasBuildRequirements(RobotType.TANKFACTORY) && fate >= 25 && fate < 75) {
 						type = RobotType.TANKFACTORY;
 					}
-					if (rc.hasBuildRequirements(RobotType.HELIPAD)) {
+					if (rc.hasBuildRequirements(RobotType.HELIPAD) && fate >= 75 && fate < 150) {
 						type = RobotType.HELIPAD;
 					}
 					tryBuild(directions[rand.nextInt(8)], type);

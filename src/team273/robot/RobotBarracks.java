@@ -32,6 +32,9 @@ public class RobotBarracks extends Robot {
 		if (rc.isCoreReady() && rc.getTeamOre() >= 60 && fate < Math.pow(1.2,15-numSoldiers-numBashers+numBeavers)*10000) {
 			Direction direction = directions[rand.nextInt(8)];
 			RobotType type;
+			if (numBashers > 10 || numSoldiers > 10) {
+				return;
+			}
 			if (rc.getTeamOre() > 80 && fate % 2 == 0) {
 				type = RobotType.BASHER;
 			} else {
